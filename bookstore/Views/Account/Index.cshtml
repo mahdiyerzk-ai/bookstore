@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Login
+
+@{
     ViewData["Title"] = "لاگین/رجیستر";
     ViewBag.Page = "خانه";
     Layout = null;
@@ -53,25 +55,26 @@
                 <button class="auth-tab" type="button" data-auth-tab="register">ثبت‌نام</button>
             </div>
 
-            <form class="auth-form active" id="loginForm">
+            <form class="auth-form active" id="loginForm" 
+            method="post" asp-controller="Account" asp-action="Login">
                 <div class="auth-title">
                     <h2>ورود به حساب</h2>
                     <p>خوش برگشتی! لطفاً اطلاعات حساب خود را وارد کن.</p>
                 </div>
 
                 <div class="form-group">
-                    <label for="loginEmail">ایمیل</label>
+                    <label for="loginEmail" asp-for="Email"></label>
                     <div class="input-box">
                         <i class="fa-regular fa-envelope"></i>
-                        <input type="email" id="loginEmail" placeholder="example@email.com" required />
+                        <input type="email" id="loginEmail" asp-for="Email" placeholder="example@email.com" />
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="loginPassword">رمز عبور</label>
+                    <label for="loginPassword" asp-for="Password"></label>
                     <div class="input-box">
                         <i class="fa-solid fa-lock"></i>
-                        <input type="password" id="loginPassword" placeholder="رمز عبور خود را وارد کنید" required />
+                        <input type="password" id="loginPassword" asp-for="Password" placeholder="رمز عبور خود را وارد کنید" required />
                         <button class="toggle-password" type="button" aria-label="نمایش رمز عبور">
                             <i class="fa-regular fa-eye"></i>
                         </button>
@@ -105,7 +108,8 @@
                 </div>
             </form>
 
-            <form class="auth-form" id="registerForm">
+            <form class="auth-form" id="registerForm" 
+            method="post" asp-controller="Account" asp-action="Register">
                 <div class="auth-title">
                     <h2>ساخت حساب کاربری</h2>
                     <p>برای خرید راحت‌تر و ذخیره کتاب‌های محبوبت ثبت‌نام کن.</p>
