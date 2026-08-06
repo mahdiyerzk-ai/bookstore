@@ -1,4 +1,5 @@
 ﻿using bookstore.Models;
+using bookstore.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace bookstore.Controllers
@@ -18,9 +19,9 @@ namespace bookstore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(Login log, string Email, string Password)
+        public IActionResult Login(LoginViewModel login)
         {
-            return View();
+            return PartialView("_Login");
         }
 
         public IActionResult Register()
@@ -29,9 +30,9 @@ namespace bookstore.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(Register reg)
+        public IActionResult Register(RegisterViewModel reg)
         {
-            return View();
+            return PartialView("_Register");
         }
     }
 }

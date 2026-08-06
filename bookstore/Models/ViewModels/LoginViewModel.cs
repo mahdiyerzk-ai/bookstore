@@ -1,26 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 
-namespace bookstore.Models
+namespace bookstore.Models.ViewModels
 {
-    public class Login
+    public class LoginViewModel
     {
-        public int Id { get; set; }
-        public string Username { get; set; }
-
         [Required]
         [Display(Name = "رمز ورود")]
         [MinLength(12)]
-        [MaxLength(18)]
         public string Password { get; set; }
-        [Required]
+
+        [Required(ErrorMessage ="ایمیل زا وارد کنید")] // data annotaion
         [Display(Name = "ایمیل")]
         [MinLength(12)]
         [MaxLength(18)]
         public string Email { get; set; }
-        public bool IsAdmin { get; set; }
 
-
-
+        [Display(Name = "مرا به هاطر بسپار")]
+        public bool RememberMe { get; set; }
     }
 }

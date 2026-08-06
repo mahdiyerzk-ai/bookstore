@@ -1,0 +1,67 @@
+﻿@using bookstore.Models.ViewModels
+@model RegisterViewModel
+
+<form class="auth-form" id="registerForm"
+      method="post" asp-controller="Account" asp-action="Register">
+    <div class="auth-title">
+        <h2>ساخت حساب کاربری</h2>
+        <p>برای خرید راحت‌تر و ذخیره کتاب‌های محبوبت ثبت‌نام کن.</p>
+    </div>
+
+    <div class="form-group d-flex justify-content-between">
+        <div class="">
+            <label for="registerName">نام</label>
+            <div class="input-box">
+                <i class="fa-regular fa-user"></i>
+                <input type="text" id="registerName" placeholder="نام کامل شما" required />
+            </div>
+        </div>
+        <div class="">
+            <label for="registerName">نام خانوادگی</label>
+            <div class="input-box">
+                <i class="fa-regular fa-user"></i>
+                <input type="text" id="registerName" placeholder="نام خانوادگی شما" required />
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="registerEmail">ایمیل</label>
+        <div class="input-box">
+            <i class="fa-regular fa-envelope"></i>
+            <input type="email" id="registerEmail" placeholder="example@email.com" required />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="registerPassword">رمز عبور</label>
+        <div class="input-box">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="registerPassword" placeholder="حداقل ۸ کاراکتر" required />
+            <button class="toggle-password" type="button" aria-label="نمایش رمز عبور">
+                <i class="fa-regular fa-eye"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="confirmPassword">تکرار رمز عبور</label>
+        <div class="input-box">
+            <i class="fa-solid fa-shield-halved"></i>
+            <input type="password" id="confirmPassword" placeholder="رمز عبور را دوباره وارد کنید" required />
+            <button class="toggle-password" type="button" aria-label="نمایش رمز عبور">
+                <i class="fa-regular fa-eye"></i>
+            </button>
+        </div>
+    </div>
+
+    <label class="terms-check">
+        <input type="checkbox" required />
+        <span>قوانین و مقررات نَواک را می‌پذیرم.</span>
+    </label>
+
+    <button class="auth-submit" type="submit">
+        ثبت‌نام در نَواک
+        <i class="fa-solid fa-arrow-left"></i>
+    </button>
+</form>

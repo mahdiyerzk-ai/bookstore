@@ -1,26 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 
-namespace bookstore.Models
+namespace bookstore.Models.DTOs
 {
-    public class Login
+    public class LoginDto
     {
-        public int Id { get; set; }
-        public string Username { get; set; }
-
-        [Required]
+        [Required] // data annotaion
         [Display(Name = "رمز ورود")]
         [MinLength(12)]
-        [MaxLength(18)]
         public string Password { get; set; }
+
         [Required]
         [Display(Name = "ایمیل")]
         [MinLength(12)]
         [MaxLength(18)]
         public string Email { get; set; }
-        public bool IsAdmin { get; set; }
 
-
-
+        [Display(Name = "مرا به هاطر بسپار")]
+        public bool RememberMe { get; set; }
     }
 }
