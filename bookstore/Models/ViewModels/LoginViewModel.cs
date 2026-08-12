@@ -9,7 +9,7 @@ namespace bookstore.Models.ViewModels
         [MinLength(12)]
         public string Password { get; set; }
 
-        [Required(ErrorMessage ="ایمیل زا وارد کنید")] // data annotaion
+        [Required(ErrorMessage ="ایمیل را وارد کنید")] // data annotaion
         [Display(Name = "ایمیل")]
         [MinLength(12)]
         [MaxLength(18)]
