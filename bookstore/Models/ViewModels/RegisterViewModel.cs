@@ -21,7 +21,7 @@ namespace bookstore.Models.ViewModels
         [Display(Name ="رمز")]
         public string Password { get; set; }
 
-        [Required(ErrorMessage = "تکرار رمز الزامی است")
+        [Required(ErrorMessage = "تکرار رمز الزامی است")]
         [Display(Name ="تکرار رمز")]
         [Compare("Password")]
         public string RePassword { get; set; }
