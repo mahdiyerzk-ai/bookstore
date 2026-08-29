@@ -1,5 +1,5 @@
 ﻿@using bookstore.Models.ViewModels
-@model RegisterViewModel
+@model User
 
 <form class="auth-form" id="registerForm"
       method="post" asp-controller="Account" asp-action="Register">
@@ -13,14 +13,14 @@
             <label for="registerName">نام</label>
             <div class="input-box">
                 <i class="fa-regular fa-user"></i>
-                <input type="text" id="registerName" placeholder="نام کامل شما" required />
+                <input type="text" asp-for="FirstName" placeholder="نام کامل شما" required />
             </div>
         </div>
         <div class="">
             <label for="registerName">نام خانوادگی</label>
             <div class="input-box">
                 <i class="fa-regular fa-user"></i>
-                <input type="text" id="registerName" placeholder="نام خانوادگی شما" required />
+                <input type="text" asp-for="LastName" placeholder="نام خانوادگی شما" required />
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
         <label for="registerEmail">ایمیل</label>
         <div class="input-box">
             <i class="fa-regular fa-envelope"></i>
-            <input type="email" id="registerEmail" placeholder="example@email.com" required />
+            <input type="email" asp-for="Email" placeholder="example@email.com" required />
         </div>
     </div>
 
@@ -37,7 +37,7 @@
         <label for="registerPassword">رمز عبور</label>
         <div class="input-box">
             <i class="fa-solid fa-lock"></i>
-            <input type="password" id="registerPassword" placeholder="حداقل ۸ کاراکتر" required />
+            <input type="password" asp-for="Password" placeholder="حداقل ۸ کاراکتر" required />
             <button class="toggle-password" type="button" aria-label="نمایش رمز عبور">
                 <i class="fa-regular fa-eye"></i>
             </button>
@@ -48,7 +48,7 @@
         <label for="confirmPassword">تکرار رمز عبور</label>
         <div class="input-box">
             <i class="fa-solid fa-shield-halved"></i>
-            <input type="password" id="confirmPassword" placeholder="رمز عبور را دوباره وارد کنید" required />
+            <input type="password" asp-for="ConfirmPassword" placeholder="رمز عبور را دوباره وارد کنید" required />
             <button class="toggle-password" type="button" aria-label="نمایش رمز عبور">
                 <i class="fa-regular fa-eye"></i>
             </button>

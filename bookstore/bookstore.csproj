@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\BookStoreContext.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Areas\" />
     <Folder Include="wwwroot\common\" />
     <Folder Include="wwwroot\admin\" />
