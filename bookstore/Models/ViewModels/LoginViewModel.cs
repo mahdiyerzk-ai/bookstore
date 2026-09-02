@@ -11,8 +11,8 @@ namespace bookstore.Models.ViewModels
 
         [Required(ErrorMessage ="ایمیل را وارد کنید")] // data annotaion
         [Display(Name = "ایمیل")]
-        [MinLength(12)]
-        [MaxLength(18)]
+        [MinLength(8)]
+        [MaxLength(25)]
         public string Email { get; set; }
 
         [Display(Name = "مرا به هاطر بسپار")]

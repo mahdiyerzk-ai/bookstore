@@ -3,7 +3,11 @@
 
 <form class="auth-form" id="registerForm"
       method="post" asp-controller="Account" asp-action="Register">
-    <div class="auth-title">
+    @if (ViewBag.Message != null)
+    {
+        <p class="text-danger">@ViewBag.Message</p>
+    }
+      <div class="auth-title">
         <h2>ساخت حساب کاربری</h2>
         <p>برای خرید راحت‌تر و ذخیره کتاب‌های محبوبت ثبت‌نام کن.</p>
     </div>

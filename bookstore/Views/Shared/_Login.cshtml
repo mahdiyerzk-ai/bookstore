@@ -3,7 +3,11 @@
 
 <form class="auth-form active" id="loginForm"
       method="post" asp-controller="Account" asp-action="Login">
-    <div class="auth-title">
+    @if (ViewBag.Message != null)
+    {
+        <p class="text-danger">@ViewBag.Message</p>
+    }
+      <div class="auth-title">
         <h2>ورود به حساب</h2>
         <p>خوش برگشتی! لطفاً اطلاعات حساب خود را وارد کن.</p>
     </div>
@@ -12,7 +16,7 @@
         <label for="loginEmail" asp-for="Email"></label>
         <div class="input-box">
             <i class="fa-regular fa-envelope"></i>
-            <input type="email" id="loginEmail" asp-for="Email" placeholder="example@email.com" />
+            <input type="email"  id="loginEmail" asp-for="Email" placeholder="example@email.com" />
             <span class="text-danger" asp-validation-for="Email"></span>
         </div>
     </div>

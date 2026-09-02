@@ -33,6 +33,7 @@ namespace bookstore.Models
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime? LastLoginDate { get; set; }
     public bool IsActive { get; set; } = false;
+    public bool IsAdmin { get; set; } = false;
     //public string Role { get; set; } = "User";
 }
 }

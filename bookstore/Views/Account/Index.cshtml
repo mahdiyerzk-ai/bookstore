@@ -54,6 +54,11 @@
                 <button class="auth-tab" type="button" data-auth-tab="register">ثبت‌نام</button>
             </div>
             
+            @if(ViewBag.Message != null)
+            {
+                <p class="text-danger">@ViewBag.Message</p>
+            }
+
             <partial name="_Login" />
             
             <partial name="_Register" />
