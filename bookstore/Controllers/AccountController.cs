@@ -89,14 +89,14 @@ namespace bookstore.Controllers
             claims.Add(new Claim(ClaimTypes.NameIdentifier, foundUser.Id.ToString()));
             claims.Add(new Claim(ClaimTypes.Name, foundUser.FirstName));
             claims.Add(new Claim(ClaimTypes.Email, foundUser.Email));
-            //if (foundUser.IsAdmin == true)
-            //{
-            //    claims.Add(new Claim(ClaimTypes.Role, "Admin"));
-            //}
-            //else
-            //{
-            //    claims.Add(new Claim(ClaimTypes.Role, "User"));
-            //}
+            if (foundUser.IsAdmin == true)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+            }
+            else
+            {
+                claims.Add(new Claim(ClaimTypes.Role, "User"));
+            }
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);

@@ -32,10 +32,18 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
             </a>
 
-            <a href="/account/index" class="header-icon" aria-label="حساب کاربری">
-                <i class="fa-regular fa-user"></i>
-            </a>
-
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a href="UserPanel/Dashboard/Index" class="header-icon" aria-label="حساب کاربری">
+                    <i class="fa-regular fa-user"></i>
+                </a>
+            }
+            else
+            {
+                <a href="/account/index" class="header-icon" aria-label="ورود و ثبت نام">
+                    <i class="fa-regular fa-user"></i>
+                </a>                
+            }
             <a href="#" class="header-icon" aria-label="علاقه‌مندی‌ها">
                 <i class="fa-regular fa-heart"></i>
             </a>

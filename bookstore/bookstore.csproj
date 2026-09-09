@@ -11,9 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\" />
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="wwwroot\common\" />
-    <Folder Include="wwwroot\admin\" />
     <Folder Include="wwwroot\site\css\" />
     <Folder Include="wwwroot\site\js\" />
   </ItemGroup>
