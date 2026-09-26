@@ -1,0 +1,15 @@
+﻿@model bookstore.Models.Product
+@{
+    ViewData["Title"] = "Delete Product";
+}
+<div class="container mt-4">
+    <div class="col-md-7">
+        <h1>Delete Product</h1>
+        <div class="alert alert-warning mt-3">Are you sure you want to delete <strong>@Model.Name</strong>?</div>
+        <form asp-action="Delete" method="post">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

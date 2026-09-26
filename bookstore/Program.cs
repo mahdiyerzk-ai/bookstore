@@ -31,12 +31,12 @@ app.MapStaticAssets();
 
 // middleware
 app.MapControllerRoute(
+    name: "Admin",
+    pattern: "{area:exists}/{controller=Account}/{action=List}/{id?}");
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
-
-app.MapControllerRoute(
-    name: "Admin",
-    pattern: "{area:exists}/{controller=Account}/{action=List}/{id?}");
 
 app.Run();

@@ -1,0 +1,29 @@
+﻿@model bookstore.Models.Product
+@{
+    ViewData["Title"] = "Product Details";
+}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Product Details</h1>
+        <div><a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a><a asp-action="Index" class="btn btn-secondary ms-2">Back</a></div>
+    </div>
+    <div class="card shadow-sm"><div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                @if (!string.IsNullOrWhiteSpace(Model.ImageUrl)) { <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded" /> }
+                else { <div class="bg-light rounded p-5 text-center text-muted">No image</div> }
+            </div>
+            <div class="col-md-9">
+                <h2>@Model.Name</h2>
+                <p class="text-muted">@Model.Author</p>
+                <dl class="row">
+                    <dt class="col-sm-3">Category</dt><dd class="col-sm-9">@Model.Category?.Name</dd>
+                    <dt class="col-sm-3">ISBN</dt><dd class="col-sm-9">@Model.ISBN</dd>
+                    <dt class="col-sm-3">Price</dt><dd class="col-sm-9">@Model.Price.ToString("N2")</dd>
+                    <dt class="col-sm-3">Stock</dt><dd class="col-sm-9">@Model.StockQuantity</dd>
+                    <dt class="col-sm-3">Description</dt><dd class="col-sm-9">@Model.Description</dd>
+                </dl>
+            </div>
+        </div>
+    </div></div>
+</div>
