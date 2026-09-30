@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "علاقه مندی ها";
+}
+
+@{
+    ViewData["Title"] = "علاقه مندی ها";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/bookstore.css" asp-append-version="true" />
+}
+
+<!-- ===== WISHLIST PAGE ===== -->
+<main class="wishlist-page">
+
+    <section class="wishlist-hero">
+        <span>کتاب‌های ذخیره‌شده</span>
+        <h1>علاقه‌مندی‌های من</h1>
+        <p>
+            کتاب‌هایی که دوست داشتی اینجا ذخیره می‌شوند تا بعداً راحت‌تر پیدایشان کنی.
+        </p>
+    </section>
+
+    <section class="wishlist-layout">
+
+        <div class="wishlist-list" id="wishlistList">
+            <!-- Items will be rendered by JS -->
+        </div>
+
+        <aside class="wishlist-summary">
+            <div class="wishlist-summary-icon">
+                <i class="fa-solid fa-heart"></i>
+            </div>
+
+            <h2>لیست علاقه‌مندی‌ها</h2>
+
+            <p>
+                تعداد کتاب‌های ذخیره‌شده:
+                <strong id="wishlistCount">۰</strong>
+            </p>
+
+            <a href="index.html#bestSellers" class="wishlist-back-btn">
+                دیدن کتاب‌های بیشتر
+                <i class="fa-solid fa-arrow-left"></i>
+            </a>
+
+            <button class="wishlist-clear-btn" type="button" id="clearWishlist">
+                حذف همه علاقه‌مندی‌ها
+            </button>
+        </aside>
+
+    </section>
+
+</main>
+
+@section Scripts {
+    <script src="~/js/bookstore.js" asp-append-version="true"></script>
+}

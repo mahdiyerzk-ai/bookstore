@@ -1,0 +1,375 @@
+﻿@{
+    ViewData["Title"] = "فروشگاه";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/shop.css" asp-append-version="true" />
+}
+
+<main class="shop-page">
+
+    <section class="shop-hero">
+        <span>فروشگاه نَواک</span>
+        <h1>کتاب مورد علاقه‌ات را پیدا کن</h1>
+        <p>
+            مجموعه‌ای از کتاب‌های منتخب، پرفروش و تازه‌رسیده برای یک تجربه خرید ساده و آرام.
+        </p>
+    </section>
+
+    <section class="shop-layout">
+
+        <!-- Sidebar -->
+        <aside class="shop-sidebar">
+
+            <div class="shop-filter-box">
+                <h3>دسته‌بندی‌ها</h3>
+
+                <div class="shop-filter-list">
+                    <button class="shop-filter-btn active" type="button" data-filter="all">
+                        همه کتاب‌ها
+                    </button>
+
+                    <button class="shop-filter-btn" type="button" data-filter="novel">
+                        رمان
+                    </button>
+
+                    <button class="shop-filter-btn" type="button" data-filter="classic">
+                        کلاسیک
+                    </button>
+
+                    <button class="shop-filter-btn" type="button" data-filter="psychology">
+                        روانشناسی
+                    </button>
+
+                    <button class="shop-filter-btn" type="button" data-filter="self-growth">
+                        توسعه فردی
+                    </button>
+
+                    <button class="shop-filter-btn" type="button" data-filter="science">
+                        علمی
+                    </button>
+
+                    <button class="shop-filter-btn sale-filter" type="button" data-filter="sale">
+                        تخفیف‌دار
+                    </button>
+                </div>
+            </div>
+
+            <div class="shop-filter-box">
+                <h3>پیشنهاد نَواک</h3>
+                <p class="shop-sidebar-text">
+                    برای شروع، کتاب‌های پرفروش و منتخب نَواک بهترین انتخاب هستند.
+                </p>
+
+                <a href="#shopProducts" class="shop-sidebar-link">
+                    مشاهده کتاب‌ها
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+            </div>
+
+        </aside>
+
+        <!-- Content -->
+        <section class="shop-content-area">
+
+            <div class="shop-toolbar">
+                <div class="shop-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="shopSearch" placeholder="جستجو بر اساس نام کتاب یا نویسنده..." />
+                </div>
+
+                <select id="shopSort">
+                    <option value="default">مرتب‌سازی پیش‌فرض</option>
+                    <option value="low-high">ارزان‌ترین</option>
+                    <option value="high-low">گران‌ترین</option>
+                    <option value="newest">جدیدترین</option>
+                </select>
+            </div>
+
+            <div class="shop-result-info">
+                <p>
+                    نمایش
+                    <strong id="shopResultCount">۰</strong>
+                    کتاب
+                </p>
+            </div>
+
+            <div class="shop-products-grid" id="shopProducts">
+
+                <!-- Product 1 -->
+                <article class="shop-product-card product-mini-card" data-book-id="world-in-nutshell" data-category="science" data-price="290000" data-date="2026-01">
+                    <button class="favorite-btn" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+
+                    <a href="#" class="shop-product-img">
+                        <img src="img/book-1.jpg" alt="جلد کتاب جهان در پوست گردو" />
+                    </a>
+
+                    <div class="book-card-content shop-product-info">
+                        <span class="shop-product-category">علمی</span>
+                        <h3>جهان در پوست گردو</h3>
+                        <p>استیون هاوکینگ</p>
+
+                        <div class="book-meta shop-product-meta">
+                            <span>علمی</span>
+                            <span>جلد نرم</span>
+                        </div>
+
+                        <div class="book-price shop-product-price">
+                            <strong>۲۹۰,۰۰۰</strong>
+                            <span>تومان</span>
+                        </div>
+
+                        <a href="#" class="shop-add-btn">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            افزودن به سبد
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Product 2 -->
+                <article class="shop-product-card product-mini-card" data-book-id="white-nights" data-category="classic sale" data-price="145000" data-date="2026-03">
+                    <button class="favorite-btn" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+
+                    <a href="#" class="shop-product-img">
+                        <span class="shop-sale-badge">تخفیف</span>
+                        <img src="img/book-2.jpg" alt="جلد کتاب شب‌های روشن" />
+                    </a>
+
+                    <div class="book-card-content shop-product-info">
+                        <span class="shop-product-category">کلاسیک</span>
+                        <h3>شب‌های روشن</h3>
+                        <p>فئودور داستایفسکی</p>
+
+                        <div class="book-meta shop-product-meta">
+                            <span>داستانی</span>
+                            <span>کلاسیک</span>
+                        </div>
+
+                        <div class="book-price shop-product-price">
+                            <strong>۱۴۵,۰۰۰</strong>
+                            <span>تومان</span>
+                        </div>
+
+                        <a href="#" class="shop-add-btn">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            افزودن به سبد
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Product 3 -->
+                <article class="shop-product-card product-mini-card" data-book-id="powerful-mind" data-category="psychology" data-price="180000" data-date="2026-04">
+                    <button class="favorite-btn" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+
+                    <a href="#" class="shop-product-img">
+                        <img src="img/book-3.jpg" alt="جلد کتاب ذهن قدرتمند" />
+                    </a>
+
+                    <div class="book-card-content shop-product-info">
+                        <span class="shop-product-category">روانشناسی</span>
+                        <h3>ذهن قدرتمند</h3>
+                        <p>باربارا ترسی</p>
+
+                        <div class="book-meta shop-product-meta">
+                            <span>روانشناسی</span>
+                            <span>موفقیت</span>
+                        </div>
+
+                        <div class="book-price shop-product-price">
+                            <strong>۱۸۰,۰۰۰</strong>
+                            <span>تومان</span>
+                        </div>
+
+                        <a href="#" class="shop-add-btn">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            افزودن به سبد
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Product 4 -->
+                <article class="shop-product-card product-mini-card" data-book-id="book-eaters" data-category="novel sale" data-price="265000" data-date="2026-02">
+                    <button class="favorite-btn" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+
+                    <a href="#" class="shop-product-img">
+                        <span class="shop-sale-badge">تخفیف</span>
+                        <img src="img/book-4.jpg" alt="جلد کتاب کتاب خواران" />
+                    </a>
+
+                    <div class="book-card-content shop-product-info">
+                        <span class="shop-product-category">رمان</span>
+                        <h3>کتاب خواران</h3>
+                        <p>سانی دین</p>
+
+                        <div class="book-meta shop-product-meta">
+                            <span>فانتزی</span>
+                            <span>رمان</span>
+                        </div>
+
+                        <div class="book-price shop-product-price">
+                            <strong>۲۶۵,۰۰۰</strong>
+                            <span>تومان</span>
+                        </div>
+
+                        <a href="#" class="shop-add-btn">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            افزودن به سبد
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Product 5 -->
+                <article class="shop-product-card product-mini-card" data-book-id="atomic-habits" data-category="self-growth sale" data-price="198000" data-date="2026-05">
+                    <button class="favorite-btn" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+
+                    <a href="#" class="shop-product-img">
+                        <span class="shop-sale-badge">محبوب</span>
+                        <img src="img/book-5.jpg" alt="جلد کتاب عادت‌های اتمی" />
+                    </a>
+
+                    <div class="book-card-content shop-product-info">
+                        <span class="shop-product-category">توسعه فردی</span>
+                        <h3>عادت‌های اتمی</h3>
+                        <p>جیمز کلیر</p>
+
+                        <div class="book-meta shop-product-meta">
+                            <span>توسعه فردی</span>
+                            <span>پرفروش</span>
+                        </div>
+
+                        <div class="book-price shop-product-price">
+                            <strong>۱۹۸,۰۰۰</strong>
+                            <span>تومان</span>
+                        </div>
+
+                        <a href="#" class="shop-add-btn">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            افزودن به سبد
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Product 6 -->
+                <article class="shop-product-card product-mini-card" data-book-id="midnight-library" data-category="novel" data-price="245000" data-date="2026-06">
+                    <button class="favorite-btn" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+
+                    <a href="#" class="shop-product-img">
+                        <img src="img/book-6.jpg" alt="جلد کتاب کتابخانه نیمه‌شب" />
+                    </a>
+
+                    <div class="book-card-content shop-product-info">
+                        <span class="shop-product-category">رمان فلسفی</span>
+                        <h3>کتابخانه نیمه‌شب</h3>
+                        <p>مت هیگ</p>
+
+                        <div class="book-meta shop-product-meta">
+                            <span>رمان</span>
+                            <span>فلسفی</span>
+                        </div>
+
+                        <div class="book-price shop-product-price">
+                            <strong>۲۴۵,۰۰۰</strong>
+                            <span>تومان</span>
+                        </div>
+
+                        <a href="#" class="shop-add-btn">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            افزودن به سبد
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Product 7 -->
+                <article class="shop-product-card product-mini-card" data-book-id="little-prince" data-category="classic kids" data-price="125000" data-date="2026-02">
+                    <button class="favorite-btn" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+
+                    <a href="#" class="shop-product-img">
+                        <img src="img/book-7.jpg" alt="جلد کتاب شازده کوچولو" />
+                    </a>
+
+                    <div class="book-card-content shop-product-info">
+                        <span class="shop-product-category">کلاسیک</span>
+                        <h3>شازده کوچولو</h3>
+                        <p>آنتوان دو سنت اگزوپری</p>
+
+                        <div class="book-meta shop-product-meta">
+                            <span>کلاسیک</span>
+                            <span>جلد سخت</span>
+                        </div>
+
+                        <div class="book-price shop-product-price">
+                            <strong>۱۲۵,۰۰۰</strong>
+                            <span>تومان</span>
+                        </div>
+
+                        <a href="#" class="shop-add-btn">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            افزودن به سبد
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Product 8 -->
+                <article class="shop-product-card product-mini-card" data-book-id="compound-effect" data-category="self-growth" data-price="175000" data-date="2026-07">
+                    <button class="favorite-btn" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
+                        <i class="fa-regular fa-heart"></i>
+                    </button>
+
+                    <a href="#" class="shop-product-img">
+                        <img src="img/book-8.jpg" alt="جلد کتاب اثر مرکب" />
+                    </a>
+
+                    <div class="book-card-content shop-product-info">
+                        <span class="shop-product-category">توسعه فردی</span>
+                        <h3>اثر مرکب</h3>
+                        <p>دارن هاردی</p>
+
+                        <div class="book-meta shop-product-meta">
+                            <span>موفقیت</span>
+                            <span>توسعه فردی</span>
+                        </div>
+
+                        <div class="book-price shop-product-price">
+                            <strong>۱۷۵,۰۰۰</strong>
+                            <span>تومان</span>
+                        </div>
+
+                        <a href="#" class="shop-add-btn">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                            افزودن به سبد
+                        </a>
+                    </div>
+                </article>
+
+            </div>
+
+            <div class="shop-empty" id="shopEmpty">
+                <i class="fa-regular fa-face-sad-tear"></i>
+                <h3>کتابی پیدا نشد</h3>
+                <p>عبارت جستجو یا فیلتر را تغییر بده.</p>
+            </div>
+
+        </section>
+
+    </section>
+
+</main>
+
+@section Scripts {
+    <script src="~/js/Shop.js" asp-append-version="true"></script>
+    <script src="~/js/Cart.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,90 @@
+﻿@{
+    ViewData["Title"] = "سبد خرید";
+}
+
+@{
+    ViewData["Title"] = "سبد خرید";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/cart.css" asp-append-version="true" />
+}
+
+<!-- ===== CART PAGE ===== -->
+<main class="cart-page">
+
+    <section class="cart-hero">
+        <span>سبد خرید</span>
+        <h1>کتاب‌های انتخاب‌شده</h1>
+        <p>
+            قبل از ثبت سفارش، تعداد کتاب‌ها و مبلغ نهایی را بررسی کن.
+        </p>
+    </section>
+
+    <section class="cart-layout">
+
+        <div class="cart-items-box">
+            <div class="cart-box-head">
+                <div>
+                    <h2>اقلام سبد خرید</h2>
+                    <p>
+                        تعداد:
+                        <strong id="cartItemsCount">۰</strong>
+                        کتاب
+                    </p>
+                </div>
+
+                <button class="cart-clear-btn" type="button" id="clearCartBtn">
+                    حذف همه
+                </button>
+            </div>
+
+            <div class="cart-items-list" id="cartItemsList">
+                <!-- JS renders cart items here -->
+            </div>
+        </div>
+
+        <aside class="cart-summary">
+            <div class="cart-summary-icon">
+                <i class="fa-solid fa-receipt"></i>
+            </div>
+
+            <h2>خلاصه سفارش</h2>
+
+            <div class="cart-summary-row">
+                <span>جمع محصولات</span>
+                <strong id="cartSubtotal">۰ تومان</strong>
+            </div>
+
+            <div class="cart-summary-row">
+                <span>هزینه ارسال</span>
+                <strong id="cartShipping">۰ تومان</strong>
+            </div>
+
+            <div class="cart-summary-row cart-discount-row">
+                <span>تخفیف</span>
+                <strong id="cartDiscount">۰ تومان</strong>
+            </div>
+
+            <div class="cart-summary-total">
+                <span>مبلغ نهایی</span>
+                <strong id="cartTotal">۰ تومان</strong>
+            </div>
+
+            <button class="cart-checkout-btn" type="button">
+                ادامه فرایند خرید
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+
+            <a asp-controller="Shop" asp-action="Index" class="cart-back-shop">
+                بازگشت به فروشگاه
+            </a>
+        </aside>
+
+    </section>
+
+</main>
+
+@section Scripts {
+    <script src="~/js/cart.js" asp-append-version="true"></script>
+}
