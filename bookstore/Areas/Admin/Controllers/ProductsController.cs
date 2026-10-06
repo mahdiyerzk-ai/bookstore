@@ -68,6 +68,7 @@ namespace bookstore.Areas.Admin.Controllers
         public async Task<IActionResult> Create()
         {
             await LoadCategoriesAsync();
+            //await LoadProductsAsync();
             return View();
         }
 
@@ -79,11 +80,11 @@ namespace bookstore.Areas.Admin.Controllers
             if (!await CategoryExistsAsync(product.CategoryId))
                 ModelState.AddModelError(nameof(product.CategoryId), "Please select a valid category.");
 
-            if (!ModelState.IsValid)
-            {
-                await LoadCategoriesAsync(product.CategoryId);
-                return View(product);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    await LoadCategoriesAsync(product.CategoryId);
+            //    return View(product);
+            //}
 
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
@@ -195,6 +196,20 @@ namespace bookstore.Areas.Admin.Controllers
                 "Id",
                 "Name",
                 selectedCategoryId);
+        }
+
+        private async Task LoadProductsAsync(int? selectedProductId = null)
+        {
+            var products = await _context.Products
+                .AsNoTracking()
+                .OrderBy(c => c.Name)
+                .ToListAsync();
+
+            ViewBag.Products = new SelectList(
+                products,
+                "Id",
+                "Name",
+                selectedProductId);
         }
     }
 }

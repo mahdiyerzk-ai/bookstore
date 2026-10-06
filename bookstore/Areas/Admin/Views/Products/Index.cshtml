@@ -1,64 +1,1680 @@
 ﻿@model IEnumerable<bookstore.Models.Product>
+
 @{
     ViewData["Title"] = "Products";
     var search = ViewData["Search"] as string;
     var categoryId = ViewData["CategoryId"] as int?;
 }
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div><h1>Products</h1><p class="text-muted mb-0">Manage bookstore products.</p></div>
-        <a asp-action="Create" class="btn btn-primary">+ Add Product</a>
+
+<div class="products-page">
+
+    <!-- =========================
+         Page Header
+    ========================== -->
+
+    <div class="products-header page-enter">
+
+        <div class="products-title">
+
+            <span class="products-title-icon">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M5 4H19C19.55 4 20 4.45 20 5V19C20 19.55 19.55 20 19 20H5C4.45 20 4 19.55 4 19V5C4 4.45 4.45 4 5 4Z"
+                          stroke="currentColor"
+                          stroke-width="1.8" />
+                    <path d="M8 8H16"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round" />
+                    <path d="M8 12H16"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round" />
+                    <path d="M8 16H13"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round" />
+                </svg>
+            </span>
+
+            <div>
+                <h1>Products</h1>
+                <p>Manage bookstore products.</p>
+            </div>
+
+        </div>
+
+
+        <a asp-action="Create"
+           class="add-product-btn">
+
+            <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 5V19"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round" />
+                <path d="M5 12H19"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round" />
+            </svg>
+
+            <span>Add Product</span>
+
+        </a>
+
     </div>
-    @if (TempData["Success"] != null) { <div class="alert alert-success">@TempData["Success"]</div> }
-    <form method="get" class="row g-2 mb-4">
-        <div class="col-md-5"><input name="search" value="@search" class="form-control" placeholder="Search name, author or ISBN..." /></div>
-        <div class="col-md-4">
-            <select name="categoryId" asp-items="ViewBag.Categories" class="form-select">
-                <option value="">All categories</option>
-            </select>
+
+
+    <!-- =========================
+         Success Alert
+    ========================== -->
+    @if (TempData["Success"] != null)
+    {
+        <div class="product-alert success-alert page-enter-delay">
+
+            <div class="alert-icon">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M20 6L9 17L4 12"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                </svg>
+            </div>
+
+            <span>@TempData["Success"]</span>
+
         </div>
-        <div class="col-md-3 d-flex gap-2">
-            <button class="btn btn-outline-primary" type="submit">Search</button>
-            <a asp-action="Index" class="btn btn-outline-secondary">Clear</a>
+    }
+
+
+    <!-- =========================
+         Search & Filters
+    ========================== -->
+
+    <div class="products-filter-card page-enter-delay">
+
+        <div class="filter-header">
+
+            <div class="filter-title">
+
+                <span class="filter-icon">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M4 6H20"
+                              stroke="currentColor"
+                              stroke-width="1.8"
+                              stroke-linecap="round" />
+                        <path d="M7 12H17"
+                              stroke="currentColor"
+                              stroke-width="1.8"
+                              stroke-linecap="round" />
+                        <path d="M10 18H14"
+                              stroke="currentColor"
+                              stroke-width="1.8"
+                              stroke-linecap="round" />
+                    </svg>
+                </span>
+
+                <div>
+                    <h2>Search & Filter</h2>
+                    <p>Find products quickly.</p>
+                </div>
+
+            </div>
+
         </div>
-    </form>
+
+
+        <form method="get"
+              asp-area="Admin"
+              asp-controller="Products"
+              asp-action="Index"
+              class="products-filter-form">
+
+
+            <!-- Search -->
+            <div class="filter-field search-field">
+
+                <label for="productSearch">
+                    Search Products
+                </label>
+
+                <div class="search-input-wrapper">
+
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <circle cx="11"
+                                cy="11"
+                                r="6.5"
+                                stroke="currentColor"
+                                stroke-width="1.8" />
+                        <path d="M16 16L20 20"
+                              stroke="currentColor"
+                              stroke-width="1.8"
+                              stroke-linecap="round" />
+                    </svg>
+
+                    <input id="productSearch"
+                           name="search"
+                           value="@search"
+                           class="product-search-input"
+                           placeholder="Search name, author or ISBN..."
+                           autocomplete="off" />
+
+                </div>
+
+            </div>
+
+
+            <!-- Category -->
+            <div class="filter-field category-filter">
+
+                <label for="categoryFilter">
+                    Category
+                </label>
+
+                <div class="select-wrapper">
+
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M4 6.5C4 5.67 4.67 5 5.5 5H10V11H4V6.5Z"
+                              stroke="currentColor"
+                              stroke-width="1.7"
+                              stroke-linejoin="round" />
+                        <path d="M14 5H18.5C19.33 5 20 5.67 20 6.5V11H14V5Z"
+                              stroke="currentColor"
+                              stroke-width="1.7"
+                              stroke-linejoin="round" />
+                        <path d="M4 13H10V19H5.5C4.67 19 4 18.33 4 17.5V13Z"
+                              stroke="currentColor"
+                              stroke-width="1.7"
+                              stroke-linejoin="round" />
+                        <path d="M14 13H20V17.5C20 18.33 19.33 19 18.5 19H14V13Z"
+                              stroke="currentColor"
+                              stroke-width="1.7"
+                              stroke-linejoin="round" />
+                    </svg>
+
+                    <select id="categoryFilter"
+                            name="categoryId"
+                            asp-items="ViewBag.Categories"
+                            class="product-category-select">
+
+                        <option value="">All categories</option>
+
+                    </select>
+
+                    <span class="select-arrow">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M6 9L12 15L18 9"
+                                  stroke="currentColor"
+                                  stroke-width="1.8"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round" />
+                        </svg>
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Buttons -->
+            <div class="filter-actions">
+
+                <button type="submit"
+                        class="product-search-btn">
+
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <circle cx="11"
+                                cy="11"
+                                r="6.5"
+                                stroke="currentColor"
+                                stroke-width="1.8" />
+                        <path d="M16 16L20 20"
+                              stroke="currentColor"
+                              stroke-width="1.8"
+                              stroke-linecap="round" />
+                    </svg>
+
+                    <span>Search</span>
+
+                </button>
+
+
+                <a asp-action="Index"
+                   class="product-clear-btn">
+
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M6 6L18 18"
+                              stroke="currentColor"
+                              stroke-width="1.8"
+                              stroke-linecap="round" />
+                        <path d="M18 6L6 18"
+                              stroke="currentColor"
+                              stroke-width="1.8"
+                              stroke-linecap="round" />
+                    </svg>
+
+                    <span>Clear</span>
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- =========================
+         Products
+    ========================== -->
     @if (!Model.Any())
     {
-        <div class="alert alert-info">No products found.</div>
+        <div class="empty-products-card page-enter-delay-2">
+
+            <div class="empty-product-icon">
+
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M5 4H19C19.55 4 20 4.45 20 5V19C20 19.55 19.55 20 19 20H5C4.45 20 4 19.55 4 19V5C4 4.45 4.45 4 5 4Z"
+                          stroke="currentColor"
+                          stroke-width="1.7" />
+                    <path d="M8 8H16"
+                          stroke="currentColor"
+                          stroke-width="1.7"
+                          stroke-linecap="round" />
+                    <path d="M8 12H16"
+                          stroke="currentColor"
+                          stroke-width="1.7"
+                          stroke-linecap="round" />
+                    <path d="M8 16H13"
+                          stroke="currentColor"
+                          stroke-width="1.7"
+                          stroke-linecap="round" />
+                </svg>
+
+            </div>
+
+            <h3>No Products Found</h3>
+
+            <p>
+                No products match your current search or filter.
+                Try changing your search criteria or add a new product.
+            </p>
+
+            <a asp-action="Create"
+               class="empty-product-btn">
+                Add Your First Product
+            </a>
+
+        </div>
     }
     else
     {
-        <div class="table-responsive">
-            <table class="table table-hover align-middle">
-                <thead class="table-dark"><tr><th>#</th><th>Product</th><th>Author</th><th>Category</th><th>ISBN</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead>
-                <tbody>
-                @foreach (var product in Model)
-                {
-                    <tr>
-                        <td>@product.Id</td>
-                        <td>
-                            @if (!string.IsNullOrWhiteSpace(product.ImageUrl))
-                            {
-                                <img src="@product.ImageUrl" alt="@product.Name" style="width:45px;height:55px;object-fit:cover;" class="rounded me-2" />
-                            }
-                            <strong>@product.Name</strong>
-                        </td>
-                        <td>@product.Author</td>
-                        <td>@product.Category?.Name</td>
-                        <td>@product.ISBN</td>
-                        <td>@product.Price.ToString("N2")</td>
-                        <td>@product.StockQuantity</td>
-                        <td>
-                            <div class="d-flex gap-1">
-                                <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-sm btn-outline-primary">Details</a>
-                                <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
-                                <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-sm btn-outline-danger">Delete</a>
-                            </div>
-                        </td>
-                    </tr>
-                }
-                </tbody>
-            </table>
+        <div class="products-card page-enter-delay-2">
+
+            <!-- Table Header -->
+            <div class="products-card-header">
+
+                <div class="products-heading">
+
+                    <h2>All Products</h2>
+
+                    <span class="products-count">
+                        @Model.Count() products
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Table -->
+            <div class="products-table-wrapper">
+
+                <table class="products-table">
+
+                    <thead>
+                        <tr>
+
+                            <th class="product-id-column">
+                                #
+                            </th>
+
+                            <th>
+                                Product
+                            </th>
+
+                            <th>
+                                Author
+                            </th>
+
+                            <th>
+                                Category
+                            </th>
+
+                            <th>
+                                ISBN
+                            </th>
+
+                            <th>
+                                Price
+                            </th>
+
+                            <th>
+                                Stock
+                            </th>
+
+                            <th class="product-actions-column">
+                                Actions
+                            </th>
+
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+
+                        @foreach (var product in Model)
+                        {
+                            <tr>
+
+                                <!-- ID -->
+                                <td>
+
+                                    <span class="product-id">
+                                        @product.Id
+                                    </span>
+
+                                </td>
+
+
+                                <!-- Product -->
+                                <td>
+
+                                    <div class="product-info">
+
+                                        @if (!string.IsNullOrWhiteSpace(product.ImageUrl))
+                                        {
+                                            <div class="product-image-wrapper">
+
+                                                <img src="@product.ImageUrl"
+                                                     alt="@product.Name"
+                                                     class="product-image" />
+
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="product-image-placeholder">
+
+                                                <svg viewBox="0 0 24 24" fill="none">
+                                                    <path d="M5 4H19C19.55 4 20 4.45 20 5V19C20 19.55 19.55 20 19 20H5C4.45 20 4 19.55 4 19V5C4 4.45 4.45 4 5 4Z"
+                                                          stroke="currentColor"
+                                                          stroke-width="1.6" />
+                                                    <path d="M8 8H16"
+                                                          stroke="currentColor"
+                                                          stroke-width="1.6"
+                                                          stroke-linecap="round" />
+                                                    <path d="M8 12H14"
+                                                          stroke="currentColor"
+                                                          stroke-width="1.6"
+                                                          stroke-linecap="round" />
+                                                </svg>
+
+                                            </div>
+                                        }
+
+                                        <div class="product-name-wrapper">
+
+                                            <strong>
+                                                @product.Name
+                                            </strong>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- Author -->
+                                <td>
+
+                                    <span class="author-name">
+                                        @product.Author
+                                    </span>
+
+                                </td>
+
+
+                                <!-- Category -->
+                                <td>
+
+                                    @if (product.Category != null)
+                                    {
+                                        <span class="category-badge">
+                                            @product.Category.Name
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="no-category">
+                                            No category
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- ISBN -->
+                                <td>
+
+                                    <span class="isbn-value">
+                                        @product.ISBN
+                                    </span>
+
+                                </td>
+
+
+                                <!-- Price -->
+                                <td>
+
+                                    <span class="product-price">
+                                        @product.Price.ToString("N2")
+                                    </span>
+
+                                </td>
+
+
+                                <!-- Stock -->
+                                <td>
+
+                                    @if (product.StockQuantity <= 0)
+                                    {
+                                        <span class="stock-badge stock-out">
+                                            <i></i>
+                                            Out of stock
+                                        </span>
+                                    }
+                                    else if (product.StockQuantity <= 5)
+                                    {
+                                        <span class="stock-badge stock-low">
+                                            <i></i>
+                                            @product.StockQuantity left
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="stock-badge stock-available">
+                                            <i></i>
+                                            @product.StockQuantity in stock
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- Actions -->
+                                <td>
+
+                                    <div class="product-actions">
+
+                                        <a asp-action="Details"
+                                           asp-route-id="@product.Id"
+                                           class="product-action-btn details-action"
+                                           title="View Details">
+
+                                            <svg viewBox="0 0 24 24" fill="none">
+                                                <path d="M2.5 12C2.5 12 6 5.5 12 5.5C18 5.5 21.5 12 21.5 12C21.5 12 18 18.5 12 18.5C6 18.5 2.5 12 2.5 12Z"
+                                                      stroke="currentColor"
+                                                      stroke-width="1.8"
+                                                      stroke-linejoin="round" />
+                                                <circle cx="12"
+                                                        cy="12"
+                                                        r="2.8"
+                                                        stroke="currentColor"
+                                                        stroke-width="1.8" />
+                                            </svg>
+
+                                            <span>Details</span>
+
+                                        </a>
+
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@product.Id"
+                                           class="product-action-btn edit-action"
+                                           title="Edit Product">
+
+                                            <svg viewBox="0 0 24 24" fill="none">
+                                                <path d="M4 20H8L19 9C20.1 7.9 20.1 6.1 19 5C17.9 3.9 16.1 3.9 15 5L4 16V20Z"
+                                                      stroke="currentColor"
+                                                      stroke-width="1.8"
+                                                      stroke-linejoin="round" />
+                                                <path d="M13.5 6.5L17.5 10.5"
+                                                      stroke="currentColor"
+                                                      stroke-width="1.8"
+                                                      stroke-linecap="round" />
+                                            </svg>
+
+                                            <span>Edit</span>
+
+                                        </a>
+
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@product.Id"
+                                           class="product-action-btn delete-action"
+                                           title="Delete Product">
+
+                                            <svg viewBox="0 0 24 24" fill="none">
+                                                <path d="M4 7H20"
+                                                      stroke="currentColor"
+                                                      stroke-width="1.8"
+                                                      stroke-linecap="round" />
+                                                <path d="M9 7V4H15V7"
+                                                      stroke="currentColor"
+                                                      stroke-width="1.8"
+                                                      stroke-linejoin="round" />
+                                                <path d="M18 7L17.3 19C17.25 19.55 16.8 20 16.25 20H7.75C7.2 20 6.75 19.55 6.7 19L6 7"
+                                                      stroke="currentColor"
+                                                      stroke-width="1.8"
+                                                      stroke-linejoin="round" />
+                                                <path d="M10 11V16"
+                                                      stroke="currentColor"
+                                                      stroke-width="1.8"
+                                                      stroke-linecap="round" />
+                                                <path d="M14 11V16"
+                                                      stroke="currentColor"
+                                                      stroke-width="1.8"
+                                                      stroke-linecap="round" />
+                                            </svg>
+
+                                            <span>Delete</span>
+
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
         </div>
     }
+
 </div>
+
+
+<style>
+
+    /* =========================================
+           Products Page
+        ========================================= */
+
+    .products-page {
+        width: 100%;
+        max-width: 1500px;
+        margin: 0 auto;
+        padding: 32px;
+        color: #172b2a;
+    }
+
+
+    /* =========================================
+           Header
+        ========================================= */
+
+    .products-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+        margin-bottom: 28px;
+    }
+
+    .products-title {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .products-title-icon {
+        width: 54px;
+        height: 54px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 15px;
+        background: rgba(15, 157, 138, 0.1);
+        color: #0f9d8a;
+        flex-shrink: 0;
+    }
+
+        .products-title-icon svg {
+            width: 27px;
+            height: 27px;
+        }
+
+    .products-title h1 {
+        margin: 0;
+        color: #243b39;
+        font-size: 28px;
+        font-weight: 750;
+        letter-spacing: -.5px;
+    }
+
+    .products-title p {
+        margin: 5px 0 0;
+        color: #7b8b8a;
+        font-size: 14px;
+    }
+
+
+    /* =========================================
+           Add Product
+        ========================================= */
+
+    .add-product-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        height: 46px;
+        padding: 0 18px;
+        border-radius: 12px;
+        background: #0f9d8a;
+        color: #fff;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 650;
+        box-shadow: 0 8px 20px rgba(15, 157, 138, .18);
+        transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+    }
+
+        .add-product-btn svg {
+            width: 19px;
+            height: 19px;
+            transition: transform .25s ease;
+        }
+
+        .add-product-btn:hover {
+            background: #0d8d7c;
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 13px 25px rgba(15, 157, 138, .25);
+        }
+
+            .add-product-btn:hover svg {
+                transform: rotate(90deg);
+            }
+
+
+    /* =========================================
+           Alert
+        ========================================= */
+
+    .product-alert {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 52px;
+        margin-bottom: 22px;
+        padding: 10px 15px;
+        border-radius: 13px;
+        font-size: 14px;
+        font-weight: 550;
+    }
+
+    .success-alert {
+        color: #08745f;
+        background: #effbf7;
+        border: 1px solid #c8eee5;
+    }
+
+    .alert-icon {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9px;
+        background: #d8f5ed;
+        flex-shrink: 0;
+    }
+
+        .alert-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+
+    /* =========================================
+           Filter Card
+        ========================================= */
+
+    .products-filter-card {
+        margin-bottom: 24px;
+        background: #fff;
+        border: 1px solid #e8eeee;
+        border-radius: 18px;
+        box-shadow: 0 5px 20px rgba(21, 55, 51, .035), 0 1px 3px rgba(21, 55, 51, .025);
+        overflow: hidden;
+    }
+
+    .filter-header {
+        padding: 17px 21px;
+        border-bottom: 1px solid #edf1f1;
+        background: #fbfcfc;
+    }
+
+    .filter-title {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+    }
+
+    .filter-icon {
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        background: #eaf8f5;
+        color: #0f9d8a;
+    }
+
+        .filter-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+    .filter-title h2 {
+        margin: 0;
+        color: #2a403e;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .filter-title p {
+        margin: 3px 0 0;
+        color: #8a9896;
+        font-size: 11px;
+    }
+
+
+    /* =========================================
+           Filter Form
+        ========================================= */
+
+    .products-filter-form {
+        display: grid;
+        grid-template-columns: minmax(250px, 1.5fr) minmax(200px, 1fr) auto;
+        gap: 14px;
+        align-items: end;
+        padding: 20px 21px;
+    }
+
+    .filter-field label {
+        display: block;
+        margin-bottom: 8px;
+        color: #455956;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .search-input-wrapper,
+    .select-wrapper {
+        position: relative;
+    }
+
+        .search-input-wrapper > svg,
+        .select-wrapper > svg {
+            position: absolute;
+            top: 50%;
+            left: 14px;
+            width: 18px;
+            height: 18px;
+            color: #8fa09d;
+            transform: translateY(-50%);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+    .product-search-input,
+    .product-category-select {
+        width: 100%;
+        height: 45px;
+        box-sizing: border-box;
+        border: 1px solid #dfe7e5;
+        border-radius: 10px;
+        outline: none;
+        background: #fff;
+        color: #2c403e;
+        font-family: inherit;
+        font-size: 12px;
+        transition: border-color .25s ease, box-shadow .25s ease;
+    }
+
+    .product-search-input {
+        padding: 0 14px 0 43px;
+    }
+
+    .product-category-select {
+        padding: 0 40px 0 43px;
+        appearance: none;
+        cursor: pointer;
+    }
+
+    .product-search-input::placeholder {
+        color: #a5b1af;
+    }
+
+    .product-search-input:focus,
+    .product-category-select:focus {
+        border-color: #0f9d8a;
+        box-shadow: 0 0 0 4px rgba(15, 157, 138, .08);
+    }
+
+    .search-input-wrapper:focus-within > svg,
+    .select-wrapper:focus-within > svg {
+        color: #0f9d8a;
+    }
+
+    .select-arrow {
+        position: absolute;
+        top: 50%;
+        right: 12px;
+        display: flex;
+        transform: translateY(-50%);
+        pointer-events: none;
+        color: #82918e;
+    }
+
+        .select-arrow svg {
+            width: 17px;
+            height: 17px;
+        }
+
+
+    /* =========================================
+           Filter Buttons
+        ========================================= */
+
+    .filter-actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .product-search-btn,
+    .product-clear-btn {
+        height: 45px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 0 15px;
+        border-radius: 10px;
+        font-family: inherit;
+        font-size: 12px;
+        font-weight: 650;
+        text-decoration: none;
+        cursor: pointer;
+        transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .product-search-btn {
+        border: 1px solid #0f9d8a;
+        background: #0f9d8a;
+        color: #fff;
+        box-shadow: 0 6px 14px rgba(15, 157, 138, .14);
+    }
+
+        .product-search-btn svg,
+        .product-clear-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .product-search-btn:hover {
+            background: #0d8d7c;
+            border-color: #0d8d7c;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 9px 18px rgba(15, 157, 138, .2);
+        }
+
+    .product-clear-btn {
+        border: 1px solid #e0e7e5;
+        background: #f8faf9;
+        color: #657572;
+    }
+
+        .product-clear-btn:hover {
+            background: #eef3f1;
+            border-color: #d2dcda;
+            color: #405451;
+            transform: translateY(-2px);
+        }
+
+
+    /* =========================================
+           Products Card
+        ========================================= */
+
+    .products-card {
+        background: #fff;
+        border: 1px solid #e8eeee;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(21, 55, 51, .04), 0 1px 3px rgba(21, 55, 51, .03);
+    }
+
+    .products-card-header {
+        min-height: 74px;
+        display: flex;
+        align-items: center;
+        padding: 17px 22px;
+        border-bottom: 1px solid #edf1f1;
+    }
+
+    .products-heading {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+        .products-heading h2 {
+            margin: 0;
+            color: #2a403e;
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+    .products-count {
+        padding: 5px 10px;
+        border-radius: 20px;
+        background: #edf9f6;
+        color: #0f9d8a;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+
+    /* =========================================
+           Table
+        ========================================= */
+
+    .products-table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        scrollbar-width: thin;
+        scrollbar-color: #cbd9d7 transparent;
+    }
+
+        .products-table-wrapper::-webkit-scrollbar {
+            height: 7px;
+        }
+
+        .products-table-wrapper::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .products-table-wrapper::-webkit-scrollbar-thumb {
+            background: #cbd9d7;
+            border-radius: 20px;
+        }
+
+    .products-table {
+        width: 100%;
+        min-width: 1200px;
+        border-collapse: collapse;
+    }
+
+        .products-table thead {
+            background: #f8faf9;
+        }
+
+        .products-table th {
+            height: 52px;
+            padding: 0 18px;
+            color: #788887;
+            font-size: 11px;
+            font-weight: 700;
+            text-align: left;
+            white-space: nowrap;
+            border-bottom: 1px solid #edf1f1;
+        }
+
+        .products-table td {
+            padding: 13px 18px;
+            border-bottom: 1px solid #f0f3f3;
+            color: #4e6260;
+            font-size: 12px;
+            vertical-align: middle;
+        }
+
+        .products-table tbody tr {
+            animation: rowEnter .45s cubic-bezier(.22, 1, .36, 1) both;
+            transition: background .2s ease;
+        }
+
+            .products-table tbody tr:hover {
+                background: #fbfdfc;
+            }
+
+            .products-table tbody tr:last-child td {
+                border-bottom: none;
+            }
+
+    .product-id-column {
+        width: 60px;
+    }
+
+    .product-actions-column {
+        width: 275px;
+    }
+
+
+    /* =========================================
+           Product ID
+        ========================================= */
+
+    .product-id {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 30px;
+        height: 29px;
+        padding: 0 8px;
+        border-radius: 8px;
+        background: #f2f6f5;
+        color: #70817f;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+
+    /* =========================================
+           Product Info
+        ========================================= */
+
+    .product-info {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        min-width: 230px;
+    }
+
+    .product-image-wrapper,
+    .product-image-placeholder {
+        width: 43px;
+        height: 55px;
+        flex-shrink: 0;
+        overflow: hidden;
+        border-radius: 8px;
+        border: 1px solid #e5ecea;
+        background: #f5f8f7;
+    }
+
+    .product-image {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        transition: transform .3s ease;
+    }
+
+    .product-image-placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #91a19f;
+    }
+
+        .product-image-placeholder svg {
+            width: 22px;
+            height: 22px;
+        }
+
+    .products-table tbody tr:hover .product-image {
+        transform: scale(1.06);
+    }
+
+    .product-name-wrapper {
+        min-width: 0;
+    }
+
+        .product-name-wrapper strong {
+            display: block;
+            max-width: 220px;
+            overflow: hidden;
+            color: #283d3b;
+            font-size: 13px;
+            font-weight: 700;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+
+    /* =========================================
+           Author
+        ========================================= */
+
+    .author-name {
+        color: #556966;
+        white-space: nowrap;
+    }
+
+
+    /* =========================================
+           Category
+        ========================================= */
+
+    .category-badge {
+        display: inline-flex;
+        align-items: center;
+        max-width: 140px;
+        padding: 6px 10px;
+        overflow: hidden;
+        border-radius: 7px;
+        background: #edf9f6;
+        color: #0f8f7e;
+        font-size: 10px;
+        font-weight: 700;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .no-category {
+        color: #a0adab;
+        font-size: 11px;
+        font-style: italic;
+    }
+
+
+    /* =========================================
+           ISBN
+        ========================================= */
+
+    .isbn-value {
+        color: #647572;
+        font-family: monospace;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+
+    /* =========================================
+           Price
+        ========================================= */
+
+    .product-price {
+        color: #263e3b;
+        font-size: 12px;
+        font-weight: 750;
+        white-space: nowrap;
+    }
+
+
+    /* =========================================
+           Stock
+        ========================================= */
+
+    .stock-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        min-width: 90px;
+        padding: 6px 9px;
+        border-radius: 7px;
+        font-size: 10px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+        .stock-badge i {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+    .stock-available {
+        background: #edf9f2;
+        color: #18864d;
+    }
+
+    .stock-low {
+        background: #fff8e8;
+        color: #b77a09;
+    }
+
+    .stock-out {
+        background: #fff1ef;
+        color: #c63f36;
+    }
+
+
+    /* =========================================
+           Actions
+        ========================================= */
+
+    .product-actions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+    }
+
+    .product-action-btn {
+        height: 33px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        padding: 0 9px;
+        border: 1px solid;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 10px;
+        font-weight: 650;
+        transition: transform .2s ease, color .2s ease, background .2s ease, border-color .2s ease;
+    }
+
+        .product-action-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .product-action-btn:hover {
+            transform: translateY(-2px);
+        }
+
+    .details-action {
+        border-color: #d4eee9;
+        background: #f3fbf9;
+        color: #0f9d8a;
+    }
+
+        .details-action:hover {
+            border-color: #0f9d8a;
+            background: #0f9d8a;
+            color: #fff;
+        }
+
+    .edit-action {
+        border-color: #e1e7e6;
+        background: #f7f9f9;
+        color: #566b69;
+    }
+
+        .edit-action:hover {
+            border-color: #d4dcda;
+            background: #edf1f0;
+            color: #344644;
+        }
+
+    .delete-action {
+        border-color: #f4d9d6;
+        background: #fff7f6;
+        color: #c63f36;
+    }
+
+        .delete-action:hover {
+            border-color: #d94b41;
+            background: #d94b41;
+            color: #fff;
+        }
+
+
+    /* =========================================
+           Empty State
+        ========================================= */
+
+    .empty-products-card {
+        min-height: 390px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 25px;
+        background: #fff;
+        border: 1px solid #e8eeee;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(21, 55, 51, .04);
+    }
+
+    .empty-product-icon {
+        width: 76px;
+        height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        border-radius: 20px;
+        background: #edf9f6;
+        color: #0f9d8a;
+    }
+
+        .empty-product-icon svg {
+            width: 37px;
+            height: 37px;
+        }
+
+    .empty-products-card h3 {
+        margin: 0 0 8px;
+        color: #263c3a;
+        font-size: 20px;
+        font-weight: 750;
+    }
+
+    .empty-products-card p {
+        max-width: 500px;
+        margin: 0 0 22px;
+        color: #82918f;
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    .empty-product-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 43px;
+        padding: 0 17px;
+        border-radius: 10px;
+        background: #0f9d8a;
+        color: #fff;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 650;
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+        .empty-product-btn:hover {
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(15, 157, 138, .2);
+        }
+
+
+    /* =========================================
+           Animations
+        ========================================= */
+
+    .page-enter {
+        animation: pageEnter .55s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    .page-enter-delay {
+        animation: pageEnter .55s .08s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    .page-enter-delay-2 {
+        animation: pageEnter .6s .15s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    @@keyframes pageEnter {
+
+        from {
+            opacity: 0;
+            transform: translateY(18px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes rowEnter {
+
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+
+    /* Row delays */
+
+    .products-table tbody tr:nth-child(1) {
+        animation-delay: .20s;
+    }
+
+    .products-table tbody tr:nth-child(2) {
+        animation-delay: .25s;
+    }
+
+    .products-table tbody tr:nth-child(3) {
+        animation-delay: .30s;
+    }
+
+    .products-table tbody tr:nth-child(4) {
+        animation-delay: .35s;
+    }
+
+    .products-table tbody tr:nth-child(5) {
+        animation-delay: .40s;
+    }
+
+    .products-table tbody tr:nth-child(6) {
+        animation-delay: .45s;
+    }
+
+    .products-table tbody tr:nth-child(7) {
+        animation-delay: .50s;
+    }
+
+    .products-table tbody tr:nth-child(8) {
+        animation-delay: .55s;
+    }
+
+    .products-table tbody tr:nth-child(9) {
+        animation-delay: .60s;
+    }
+
+    .products-table tbody tr:nth-child(10) {
+        animation-delay: .65s;
+    }
+
+
+    /* =========================================
+           Responsive
+        ========================================= */
+
+    @@media (max-width: 1100px) {
+
+        .products-filter-form {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .filter-actions {
+            grid-column: 1 / -1;
+        }
+
+        .product-search-btn,
+        .product-clear-btn {
+            flex: 1;
+        }
+    }
+
+
+    @@media (max-width: 768px) {
+
+        .products-page {
+            padding: 22px 16px;
+        }
+
+        .products-header {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 17px;
+        }
+
+        .products-title {
+            width: 100%;
+        }
+
+        .add-product-btn {
+            width: 100%;
+        }
+
+        .products-title h1 {
+            font-size: 24px;
+        }
+
+        .products-title-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 13px;
+        }
+
+        .products-filter-form {
+            grid-template-columns: 1fr;
+            padding: 18px;
+        }
+
+        .filter-actions {
+            grid-column: auto;
+        }
+
+        .products-card {
+            border-radius: 16px;
+        }
+
+        .products-card-header {
+            padding: 16px;
+        }
+    }
+
+
+    @@media (max-width: 500px) {
+
+        .products-page {
+            padding: 17px 12px;
+        }
+
+        .products-title {
+            gap: 12px;
+        }
+
+        .products-title-icon {
+            width: 44px;
+            height: 44px;
+        }
+
+            .products-title-icon svg {
+                width: 23px;
+                height: 23px;
+            }
+
+        .products-title h1 {
+            font-size: 20px;
+        }
+
+        .products-title p {
+            font-size: 11px;
+        }
+
+        .add-product-btn {
+            height: 44px;
+            font-size: 13px;
+        }
+
+        .filter-header {
+            padding: 15px;
+        }
+
+        .filter-icon {
+            width: 35px;
+            height: 35px;
+        }
+
+        .products-filter-form {
+            padding: 16px;
+        }
+
+        .filter-actions {
+            flex-direction: column;
+        }
+
+        .product-search-btn,
+        .product-clear-btn {
+            width: 100%;
+        }
+
+        .products-heading h2 {
+            font-size: 15px;
+        }
+
+        .products-count {
+            font-size: 10px;
+        }
+
+        .empty-products-card {
+            min-height: 340px;
+            padding: 30px 18px;
+        }
+
+        .empty-product-icon {
+            width: 65px;
+            height: 65px;
+            border-radius: 17px;
+        }
+
+            .empty-product-icon svg {
+                width: 31px;
+                height: 31px;
+            }
+
+        .empty-products-card h3 {
+            font-size: 18px;
+        }
+
+        .empty-products-card p {
+            font-size: 12px;
+        }
+    }
+
+
+    /* =========================================
+           Reduced Motion
+        ========================================= */
+
+    @@media (prefers-reduced-motion: reduce) {
+
+        .page-enter,
+        .page-enter-delay,
+        .page-enter-delay-2,
+        .products-table tbody tr {
+            animation: none;
+        }
+
+        .add-product-btn,
+        .product-action-btn,
+        .product-search-btn,
+        .product-clear-btn,
+        .empty-product-btn,
+        .product-image {
+            transition: none;
+        }
+    }
+
+</style>
+

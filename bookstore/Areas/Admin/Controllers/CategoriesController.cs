@@ -62,7 +62,7 @@ namespace bookstore.Areas.Admin.Controllers
 
             TempData["Success"] = "Category created successfully.";
             return RedirectToAction(nameof(Index));
-            //  ViewData["Message"] and ViewBag.Message and TempData["Success"]
+            // ViewData["Message"] and ViewBag.Message and TempData["Success"]
         }
 
         // GET: /Admin/Categories/Edit/5
