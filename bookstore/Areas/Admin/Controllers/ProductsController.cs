@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace bookstore.Areas.Admin.Controllers
 {
@@ -9,10 +12,14 @@ namespace bookstore.Areas.Admin.Controllers
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _environment;
 
-        public ProductsController(ApplicationDbContext context)
+        public ProductsController(
+            ApplicationDbContext context,
+            IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
         // GET: /Admin/Products
@@ -68,31 +75,50 @@ namespace bookstore.Areas.Admin.Controllers
         public async Task<IActionResult> Create()
         {
             await LoadCategoriesAsync();
-            //await LoadProductsAsync();
             return View();
         }
 
         // POST: /Admin/Products/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product product)
+        public async Task<IActionResult> Create(
+            Product product,
+            IFormFile? imageFile)
         {
             if (!await CategoryExistsAsync(product.CategoryId))
-                ModelState.AddModelError(nameof(product.CategoryId), "Please select a valid category.");
+            {
+                ModelState.AddModelError(
+                    nameof(product.CategoryId),
+                    "Please select a valid category.");
+            }
 
-            //if (!ModelState.IsValid)
-            //{
-            //    await LoadCategoriesAsync(product.CategoryId);
-            //    return View(product);
-            //}
+            if (imageFile is not null && imageFile.Length > 0)
+            {
+                ValidateProductImage(imageFile);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                await LoadCategoriesAsync(product.CategoryId);
+                return View(product);
+            }
+
+            if (imageFile is not null && imageFile.Length > 0)
+            {
+                product.ImageUrl = await SaveProductImageAsync(imageFile);
+            }
+            else
+            {
+                product.ImageUrl = null;
+            }
 
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
             TempData["Success"] = "Product created successfully.";
+
             return RedirectToAction(nameof(Index));
         }
-
         // GET: /Admin/Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -111,13 +137,25 @@ namespace bookstore.Areas.Admin.Controllers
         // POST: /Admin/Products/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Product product)
+        public async Task<IActionResult> Edit(
+            int id,
+            Product product,
+            IFormFile? imageFile)
         {
             if (id != product.Id)
                 return NotFound();
 
             if (!await CategoryExistsAsync(product.CategoryId))
-                ModelState.AddModelError(nameof(product.CategoryId), "Please select a valid category.");
+            {
+                ModelState.AddModelError(
+                    nameof(product.CategoryId),
+                    "Please select a valid category.");
+            }
+
+            if (imageFile is not null && imageFile.Length > 0)
+            {
+                ValidateProductImage(imageFile);
+            }
 
             if (!ModelState.IsValid)
             {
@@ -136,15 +174,21 @@ namespace bookstore.Areas.Admin.Controllers
             existingProduct.ISBN = product.ISBN;
             existingProduct.Price = product.Price;
             existingProduct.StockQuantity = product.StockQuantity;
-            existingProduct.ImageUrl = product.ImageUrl;
             existingProduct.CategoryId = product.CategoryId;
+
+            // Replace the image only if a new one was selected.
+            if (imageFile is not null && imageFile.Length > 0)
+            {
+                existingProduct.ImageUrl =
+                    await SaveProductImageAsync(imageFile);
+            }
 
             await _context.SaveChangesAsync();
 
             TempData["Success"] = "Product updated successfully.";
+
             return RedirectToAction(nameof(Index));
         }
-
         // GET: /Admin/Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -211,5 +255,65 @@ namespace bookstore.Areas.Admin.Controllers
                 "Name",
                 selectedProductId);
         }
+
+        #region upload image
+        private static readonly HashSet<string> AllowedExtensions =
+new(StringComparer.OrdinalIgnoreCase)
+{
+        ".jpg", ".jpeg", ".png", ".webp"
+};
+
+        private void ValidateProductImage(IFormFile imageFile)
+        {
+            const long maxFileSize = 5 * 1024 * 1024; // 5 MB
+
+            var extension = Path.GetExtension(imageFile.FileName);
+
+            if (!AllowedExtensions.Contains(extension))
+            {
+                ModelState.AddModelError(
+                    "imageFile",
+                    "Only JPG, JPEG, PNG and WEBP images are allowed.");
+            }
+
+            if (imageFile.Length > maxFileSize)
+            {
+                ModelState.AddModelError(
+                    "imageFile",
+                    "The image size must not exceed 5 MB.");
+            }
+
+            if (imageFile.Length == 0)
+            {
+                ModelState.AddModelError(
+                    "imageFile",
+                    "The uploaded image is empty.");
+            }
+        }
+
+        private async Task<string> SaveProductImageAsync(IFormFile imageFile)
+        {
+            var uploadsFolder = Path.Combine(
+                _environment.WebRootPath,
+                "images",
+                "products");
+
+            Directory.CreateDirectory(uploadsFolder);
+
+            var extension = Path.GetExtension(imageFile.FileName).ToLowerInvariant();
+
+            // Generate a unique name instead of trusting the user's filename.
+            var fileName = $"{Guid.NewGuid():N}{extension}";
+
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            await using (var stream = new FileStream(filePath, FileMode.CreateNew))
+            {
+                await imageFile.CopyToAsync(stream);
+            }
+
+            return $"/images/products/{fileName}";
+        }
+        #endregion
     }
 }
