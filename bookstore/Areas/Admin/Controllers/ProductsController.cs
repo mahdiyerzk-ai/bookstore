@@ -97,11 +97,11 @@ namespace bookstore.Areas.Admin.Controllers
                 ValidateProductImage(imageFile);
             }
 
-            if (!ModelState.IsValid)
-            {
-                await LoadCategoriesAsync(product.CategoryId);
-                return View(product);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    await LoadCategoriesAsync(product.CategoryId);
+            //    return View(product);
+            //}
 
             if (imageFile is not null && imageFile.Length > 0)
             {
