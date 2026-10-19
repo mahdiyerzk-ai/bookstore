@@ -1,0 +1,76 @@
+﻿@model bookstore.Models.ViewModels.ShopProductItem
+@using bookstore.Models.ViewModels
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Shop.css" asp-append-version="true" />
+}
+
+<main class="shop-page">
+
+    <nav class="shop-breadcrumb" aria-label="مسیر صفحه">
+        <a asp-action="Index">فروشگاه</a>
+        <i class="fa-solid fa-angle-left"></i>
+        <a asp-action="Index" asp-route-category="@Model.CategoryId">@Model.CategoryName</a>
+        <i class="fa-solid fa-angle-left"></i>
+        <span>@Model.Name</span>
+    </nav>
+
+    <article class="shop-detail product-mini-card" data-book-id="@Model.Id" data-price="@((long)Model.Price)">
+
+        <div class="shop-detail-img">
+            <img src="@Model.CoverUrl" alt="جلد کتاب @Model.Name" />
+        </div>
+
+        <div class="shop-detail-info book-card-content">
+            <span class="shop-product-category">@Model.CategoryName</span>
+            <h3>@Model.Name</h3>
+            <p>@(string.IsNullOrWhiteSpace(Model.Author) ? "نویسنده نامشخص" : Model.Author)</p>
+
+            <div class="book-meta shop-product-meta">
+                <span>@Model.CategoryName</span>
+                @if (!string.IsNullOrWhiteSpace(Model.ISBN))
+                {
+                    <span>شابک: @Model.ISBN.ToPersianDigits()</span>
+                }
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Description))
+            {
+                <div class="shop-detail-desc">@Model.Description</div>
+            }
+
+            @if (Model.LowStock)
+            {
+                <div class="shop-stock-note">تنها @Model.StockQuantity.ToPersianDigits() عدد در انبار</div>
+            }
+
+            <div class="book-price shop-product-price">
+                <strong>@Model.Price.ToTomanText()</strong>
+                <span>تومان</span>
+            </div>
+
+            <div class="shop-detail-actions">
+                @if (Model.InStock)
+                {
+                    <a href="#" class="shop-add-btn">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        افزودن به سبد
+                    </a>
+                }
+                else
+                {
+                    <button type="button" class="shop-soldout-btn" disabled>ناموجود</button>
+                }
+
+                <button class="favorite-btn" type="button" aria-label="افزودن به علاقه‌مندی‌ها">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+            </div>
+        </div>
+
+    </article>
+
+</main>
