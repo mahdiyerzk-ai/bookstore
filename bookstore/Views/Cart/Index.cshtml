@@ -2,12 +2,8 @@
     ViewData["Title"] = "سبد خرید";
 }
 
-@{
-    ViewData["Title"] = "سبد خرید";
-}
-
 @section Styles {
-    <link rel="stylesheet" href="~/css/cart.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Cart.css" asp-append-version="true" />
 }
 
 <!-- ===== CART PAGE ===== -->
@@ -39,7 +35,7 @@
                 </button>
             </div>
 
-            <div class="cart-items-list" id="cartItemsList">
+            <div class="cart-items-list" id="cartItemsList" data-shop-url="@Url.Action("Index", "Shop")">
                 <!-- JS renders cart items here -->
             </div>
         </div>
@@ -71,7 +67,9 @@
                 <strong id="cartTotal">۰ تومان</strong>
             </div>
 
-            <button class="cart-checkout-btn" type="button">
+            <button class="cart-checkout-btn" type="button" id="checkoutBtn"
+                    data-authenticated="@(User.Identity?.IsAuthenticated == true ? "true" : "false")"
+                    data-login-url="@Url.Action("Index", "Account")">
                 ادامه فرایند خرید
                 <i class="fa-solid fa-arrow-left"></i>
             </button>
@@ -85,6 +83,3 @@
 
 </main>
 
-@section Scripts {
-    <script src="~/js/cart.js" asp-append-version="true"></script>
-}

@@ -16,7 +16,7 @@
         <nav class="header-nav" id="primaryMenu" aria-label="منوی اصلی">
             <ul>
                 <li><a href="bookstore2.3.html">خانه</a></li>
-                <li><a href="#">فروشگاه</a></li>
+                <li><a asp-controller="Shop" asp-action="Index">فروشگاه</a></li>
                 <li><a href="#">دسته‌بندی‌ها</a></li>
                 <li><a href="#">جدیدترین‌ها</a></li>
                 <li><a href="#">پرفروش‌ها</a></li>
@@ -48,9 +48,9 @@
                 <i class="fa-regular fa-heart"></i>
             </a>
 
-            <a href="#" class="header-icon cart-icon" aria-label="سبد خرید">
+            <a asp-controller="Cart" asp-action="Index" class="header-icon cart-icon" aria-label="سبد خرید">
                 <i class="fa-solid fa-bag-shopping"></i>
-                <span class="icon-badge">2</span>
+                <span class="icon-badge" data-cart-count style="display:none">0</span>
             </a>
         </div>
     </div>
